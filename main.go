@@ -4,12 +4,19 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/template/html/v2"
 )
 
 func main() {
-	app := fiber.New()
+	engine := html.New("./views", ".html")
+
+	app := fiber.New(fiber.Config{
+		Views: engine,
+	})
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("소고기 발사")
+		return c.Render("index", fiber.Map{
+			"Title": "히히 똥 발사",
+		})
 	})
 
 	log.Fatal(app.Listen(":3000"))
